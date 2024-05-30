@@ -1,25 +1,25 @@
 # Kitsune
-Ben-Gurion Üniversitesi'nden Yisroel Mirsky ve ekibi tarafından geliştirilen  çevrimiçi ağ saldırılarını tespit edebilen bir ağ saldırı tespit sistemidir. Kitsune'nin temel  algoritması olan KitNET; autoencoder adı verilen sinir ağlarından oluşan bir ansambl kullanarak normal ve anormal trafik desenlerini ayırt eder. Ağ güvenliği alanında yenilikçi ve etkili bir çözüm sunarak, ağ trafiğini sürekli olarak izleyebilir ve anormallikleri tespit ederek olası saldırılara karşı koruma sağlar. Bu özellikleri sayesinde farklı ağ ortamlarında kullanılabilecek esnek ve güçlü bir NIDS çözümüdür.
+It is a network intrusion detection system that can detect online network attacks, developed by Yisroel Mirsky and his team from Ben-Gurion University. KitNET, the core algorithm of Kitsune; It distinguishes normal and abnormal traffic patterns using an assembly of neural networks called autoencoders. Offering an innovative and effective solution in the field of network security, it can constantly monitor network traffic and detect anomalies, providing protection against possible attacks. Thanks to these features, it is a flexible and powerful NIDS solution that can be used in different network environments.
 
 
 
 
-# Kitsune Mimarisi
+# Kitsune Architecture
 ![An illustration of Kitsune's architecture](https://raw.githubusercontent.com/ymirsky/Kitsune-py/master/Kitsune_fig.png)
-* External Libs: Kitsune ağ paketlerini yakalamak ve işlemek için dış kütüphanelere (libs) bağımlıdır. Bu kütüphaneler paket yakalama ve analiz etme işlevlerini sağlar. 
-* Packet Capturer: Ağ üzerinden geçen paketleri yakalar. Bu modül ağ trafiğini dinler ve ileri işlem için gerekli olan ham paket verilerini toplar. 
-* Packet Parser: Yakalanan paketlerden gerekli bilgileri çıkarır. Bu aşama paketlerin içeriğini anlamak ve kullanılabilir verilere dönüştürmek için kritik öneme sahiptir. 
-* Feature Extractor (FE): Paket parser tarafından işlenen verilerden özellikler çıkarır. Özellik çıkarma verilerin model tarafından işlenmesi için uygun hale getirilmesini sağlar. 
-* Feature Mapper (FM): Çıkarılan özellikleri otoenkoderler tarafından işlenebilecek formata dönüştürür. Bu modül özelliklerin uygun bir şekilde haritalanmasını ve gruplandırılmasını sağlar. 
-* Ensemble Layer: Çoklu otoenkoderlerin yer aldığı katmandır. Her bir otoenkoder belirli özellik grupları üzerinde çalışarak anomali tespiti yapar. Bu katman çeşitli otoenkoderlerin bir araya gelmesiyle oluşur ve her biri farklı türden veri anomalilerini tespit etmek için özelleştirilmiştir. 
-* Output Layer: Ensemble layer'dan gelen bilgileri alır ve son anomali tespit kararını verir. Bu katman tüm otoenkoderlerden gelen çıktıları birleştirerek nihai bir skor veya alarm üretir. 
-* ILog: Anomali tespit sonuçlarını kaydeder. Bu loglar tespit edilen olayların incelenmesi, raporlanması ve arşivlenmesi için kullanılır. 
+* External Libs: Kitsune depends on external libraries (libs) to capture and process network packets. These libraries provide packet capture and analysis functions. 
+* Packet Capturer: Captures packets passing over the network. This module listens to network traffic and collects raw packet data required for further processing. 
+* Packet Parser: Extracts necessary information from captured packets. This stage is critical for understanding the contents of the packets and converting them into usable data. 
+* Feature Extractor (FE): Extracts features from data processed by the packet parser. Feature extraction ensures that data is made available for processing by the model. 
+* Feature Mapper (FM): Converts the extracted features into a format that can be processed by autoencoders. This module ensures proper mapping and grouping of features. 
+* Ensemble Layer: This is the layer where multiple autoencoders are located. Each autoencoder detects anomalies by working on certain feature groups. This layer consists of various autoencoders, each customized to detect different types of data anomalies. 
+* Output Layer: It receives the information from the Ensemble layer and makes the final anomaly detection decision. This layer combines the outputs from all autoencoders to produce a final score or alarm. 
+* ILog: Saves anomaly detection results. These logs are used to examine, report and archive detected events.
 
 
 
 
-# Yapılan Çalışma 
-Kitsune, ağ trafiğindeki zararlı saldırıları (DOS, DDOS gibi) izleyen ve bu saldırılara bağlı RMSE değerleri üreten bir NIDS tabanlı sistemdir. Sistemi örnek kod ile çalıştırdığımızda oldukça yavaş ve hantal olduğunu fark ettik. Bu sorunu çözmek için araştırmalar yaparak hızlandırma yöntemleri üzerine yoğunlaştık. Grafik işlemcilerde paralel işlem yapmanın sistemi hızlandırabileceğini öğrendik ve bu doğrultuda CUDA (cupy) kütüphanesini kullanmaya başladık. Bu değişiklikler sonucunda sistemin daha hızlı çalıştığını gözlemledik. Sonrasında kendi Wi-Fi ağ trafiğimizde olaşabilecek anomalileri Kitsune nasıl izleyebiliriz sorusu aklımıza ve araştırmalarımızı bu yönde derinleştirdik. WireShark kullanarak ağ trafiğini izleyebileceğimizi ve elde ettiğimiz metrikleri programımızda işleyebileceğimizi keşfettik. Canlı trafikten elde edilen RMSE değelerinin çıktısını canlı olarak grafikte izlemek için PyQt5 kütüphanesini kullandık.
+# Work Done 
+Kitsune is a NIDS-based system that monitors malicious attacks (such as DOS, DDOS) in network traffic and produces RMSE values ​​​​based on these attacks. When we ran the system with the sample code, we noticed that it was quite slow and cumbersome. To solve this problem, we conducted research and focused on acceleration methods. We learned that parallel processing on graphics processors could speed up the system, and accordingly we started using the CUDA (cupy) library. As a result of these changes, we observed that the system worked faster. Afterwards, we thought about how we can monitor anomalies that may occur in our own Wi-Fi network traffic with Kitsune, and we deepened our research in this direction. We discovered that we could monitor network traffic using WireShark and process the resulting metrics in our program. We used the PyQt5 library to monitor the output of RMSE values ​​obtained from live traffic in the chart.
 
 ![kitsune](https://raw.githubusercontent.com/sefasubasi/Custom_Kitsune/main/resim.png)
 
