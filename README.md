@@ -3,6 +3,7 @@ Ben-Gurion Üniversitesi'nden Yisroel Mirsky ve ekibi tarafından geliştirilen 
 
 
 
+
 # Kitsune Mimarisi
 ![An illustration of Kitsune's architecture](https://raw.githubusercontent.com/ymirsky/Kitsune-py/master/Kitsune_fig.png)
 External Libs: Kitsune ağ paketlerini yakalamak ve işlemek için dış kütüphanelere (libs) bağımlıdır. Bu kütüphaneler paket yakalama ve analiz etme işlevlerini sağlar. 
@@ -16,8 +17,11 @@ ILog: Anomali tespit sonuçlarını kaydeder. Bu loglar tespit edilen olayların
 
 
 
-#Yapılan Çalışma 
+
+# Yapılan Çalışma 
 Kitsune, ağ trafiğindeki zararlı saldırıları (DOS, DDOS gibi) izleyen ve bu saldırılara bağlı RMSE değerleri üreten bir NIDS tabanlı sistemdir. Sistemi örnek kod ile çalıştırdığımızda oldukça yavaş ve hantal olduğunu fark ettik. Bu sorunu çözmek için araştırmalar yaparak hızlandırma yöntemleri üzerine yoğunlaştık. Grafik işlemcilerde paralel işlem yapmanın sistemi hızlandırabileceğini öğrendik ve bu doğrultuda CUDA (cupy) kütüphanesini kullanmaya başladık. Bu değişiklikler sonucunda sistemin daha hızlı çalıştığını gözlemledik. Sonrasında kendi Wi-Fi ağ trafiğimizde olaşabilecek anomalileri Kitsune nasıl izleyebiliriz sorusu aklımıza ve araştırmalarımızı bu yönde derinleştirdik. WireShark kullanarak ağ trafiğini izleyebileceğimizi ve elde ettiğimiz metrikleri programımızda işleyebileceğimizi keşfettik. Canlı trafikten elde edilen RMSE değelerinin çıktısını canlı olarak grafikte izlemek  için PyQt5 kütüphanesini kullanmamız gerektiğini öğrendik ve programımıza bu özelliği ekledik.
+
+
 
 
 
