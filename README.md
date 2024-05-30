@@ -26,4 +26,4 @@ Kitsune is a NIDS-based system that monitors malicious attacks (such as DOS, DDO
 
 
 
-Kaynak Repository: https://github.com/ymirsky/Kitsune-py
+Repository: https://github.com/ymirsky/Kitsune-py
