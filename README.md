@@ -6,14 +6,14 @@ Ben-Gurion Üniversitesi'nden Yisroel Mirsky ve ekibi tarafından geliştirilen 
 
 # Kitsune Mimarisi
 ![An illustration of Kitsune's architecture](https://raw.githubusercontent.com/ymirsky/Kitsune-py/master/Kitsune_fig.png)
-External Libs: Kitsune ağ paketlerini yakalamak ve işlemek için dış kütüphanelere (libs) bağımlıdır. Bu kütüphaneler paket yakalama ve analiz etme işlevlerini sağlar. 
-Packet Capturer: Ağ üzerinden geçen paketleri yakalar. Bu modül ağ trafiğini dinler ve ileri işlem için gerekli olan ham paket verilerini toplar. 
-Packet Parser: Yakalanan paketlerden gerekli bilgileri çıkarır. Bu aşama paketlerin içeriğini anlamak ve kullanılabilir verilere dönüştürmek için kritik öneme sahiptir. 
-Feature Extractor (FE): Paket parser tarafından işlenen verilerden özellikler çıkarır. Özellik çıkarma verilerin model tarafından işlenmesi için uygun hale getirilmesini sağlar. 
-Feature Mapper (FM): Çıkarılan özellikleri otoenkoderler tarafından işlenebilecek formata dönüştürür. Bu modül özelliklerin uygun bir şekilde haritalanmasını ve gruplandırılmasını sağlar. 
-Ensemble Layer: Çoklu otoenkoderlerin yer aldığı katmandır. Her bir otoenkoder belirli özellik grupları üzerinde çalışarak anomali tespiti yapar. Bu katman çeşitli otoenkoderlerin bir araya gelmesiyle oluşur ve her biri farklı türden veri anomalilerini tespit etmek için özelleştirilmiştir. 
-Output Layer: Ensemble layer'dan gelen bilgileri alır ve son anomali tespit kararını verir. Bu katman tüm otoenkoderlerden gelen çıktıları birleştirerek nihai bir skor veya alarm üretir. 
-ILog: Anomali tespit sonuçlarını kaydeder. Bu loglar tespit edilen olayların incelenmesi, raporlanması ve arşivlenmesi için kullanılır. 
+* External Libs: Kitsune ağ paketlerini yakalamak ve işlemek için dış kütüphanelere (libs) bağımlıdır. Bu kütüphaneler paket yakalama ve analiz etme işlevlerini sağlar. 
+* Packet Capturer: Ağ üzerinden geçen paketleri yakalar. Bu modül ağ trafiğini dinler ve ileri işlem için gerekli olan ham paket verilerini toplar. 
+* Packet Parser: Yakalanan paketlerden gerekli bilgileri çıkarır. Bu aşama paketlerin içeriğini anlamak ve kullanılabilir verilere dönüştürmek için kritik öneme sahiptir. 
+* Feature Extractor (FE): Paket parser tarafından işlenen verilerden özellikler çıkarır. Özellik çıkarma verilerin model tarafından işlenmesi için uygun hale getirilmesini sağlar. 
+* Feature Mapper (FM): Çıkarılan özellikleri otoenkoderler tarafından işlenebilecek formata dönüştürür. Bu modül özelliklerin uygun bir şekilde haritalanmasını ve gruplandırılmasını sağlar. 
+* Ensemble Layer: Çoklu otoenkoderlerin yer aldığı katmandır. Her bir otoenkoder belirli özellik grupları üzerinde çalışarak anomali tespiti yapar. Bu katman çeşitli otoenkoderlerin bir araya gelmesiyle oluşur ve her biri farklı türden veri anomalilerini tespit etmek için özelleştirilmiştir. 
+* Output Layer: Ensemble layer'dan gelen bilgileri alır ve son anomali tespit kararını verir. Bu katman tüm otoenkoderlerden gelen çıktıları birleştirerek nihai bir skor veya alarm üretir. 
+* ILog: Anomali tespit sonuçlarını kaydeder. Bu loglar tespit edilen olayların incelenmesi, raporlanması ve arşivlenmesi için kullanılır. 
 
 
 
