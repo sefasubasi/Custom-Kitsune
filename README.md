@@ -4,7 +4,8 @@ Ben-Gurion Üniversitesi'nden Yisroel Mirsky ve ekibi tarafından geliştirilen 
 
 
 Kitsune Mimarisi
-https://raw.githubusercontent.com/ymirsky/Kitsune-py/master/Kitsune_fig.png
+[https://raw.githubusercontent.com/ymirsky/Kitsune-py/master/Kitsune_fig.png
+](https://raw.githubusercontent.com/ymirsky/Kitsune-py/master/Kitsune_fig.png)
 External Libs: Kitsune ağ paketlerini yakalamak ve işlemek için dış kütüphanelere (libs) bağımlıdır. Bu kütüphaneler paket yakalama ve analiz etme işlevlerini sağlar. 
 Packet Capturer: Ağ üzerinden geçen paketleri yakalar. Bu modül ağ trafiğini dinler ve ileri işlem için gerekli olan ham paket verilerini toplar. 
 Packet Parser: Yakalanan paketlerden gerekli bilgileri çıkarır. Bu aşama paketlerin içeriğini anlamak ve kullanılabilir verilere dönüştürmek için kritik öneme sahiptir. 
