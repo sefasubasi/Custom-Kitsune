@@ -1,0 +1,267 @@
+import numpy as np
+import time
+from FeatureExtractor import FE
+from KitNET.KitNET import KitNET
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from concurrent.futures import ThreadPoolExecutor
+
+class Kitsune:
+    def __init__(self, interface, limit, max_autoencoder_size=10, FM_grace_period=None, AD_grace_period=10000, learning_rate=0.1, hidden_ratio=0.75):
+        self.FE = FE(interface, limit)
+        self.AnomDetector = KitNET(self.FE.get_num_features(), max_autoencoder_size, FM_grace_period, AD_grace_period, learning_rate, hidden_ratio)
+
+    def proc_next_packet(self):
+        x = self.FE.get_next_vector()
+        if len(x) == 0:
+            return -1  # Error or no packets left
+        return self.AnomDetector.process(x)  # Train during grace periods, then execute
+
+def update_graph(frame, RMSEs, line):
+    if len(RMSEs) > 0:
+        line.set_data(range(len(RMSEs)), RMSEs)
+        plt.gca().relim()
+        plt.gca().autoscale_view()
+    return line,
+
+def process_packets(K, RMSEs, i):
+    rmse = K.proc_next_packet()
+    if rmse != -1:
+        RMSEs.append(rmse)
+       #print(f"Packet {i}: RMSE = {rmse}")
+    return rmse
+
+if __name__ == "__main__":
+    interface = "Wi-Fi"  # Windows için genellikle "Wi-Fi" veya "Ethernet"
+    packet_limit = np.Inf
+
+    maxAE = 10
+    FMgrace = 5000
+    ADgrace = 50000
+
+    K = Kitsune(interface, packet_limit, maxAE, FMgrace, ADgrace)
+
+    print("Running Kitsune:")
+    RMSEs = []
+    i = 0
+    start_time = time.time()
+    max_duration = 25 * 60  # 5 dakika
+
+    fig, ax = plt.subplots()
+    line, = ax.plot([], [], lw=2)
+    ax.set_ylim(0, 1)
+    ax.set_xlim(0, 100000)
+    ax.set_title("Anomaly Scores from Kitsune's Execution Phase")
+    ax.set_ylabel("RMSE")
+    ax.set_xlabel("Packet")
+
+    ani = animation.FuncAnimation(fig, update_graph, fargs=(RMSEs, line), interval=100)
+
+    plt.ion()  # Interactive mode on
+    plt.show()
+
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        futures = []
+        while True:
+            i += 1
+            futures.append(executor.submit(process_packets, K, RMSEs, i))
+
+            # Anlık RMSE değerini yazdırma
+            if futures[-1].result() == -1:
+                break
+
+            if i % 1000 == 0:
+                print(f"Processed {i} packets so far.")
+
+            if time.time() - start_time > max_duration:
+                print("Time limit reached. Stopping...")
+                break
+
+            plt.pause(0.01)  # Pause to allow the plot to update
+
+    stop = time.time()
+    print("Complete. Time elapsed: " + str(stop - start))
+
+    plt.ioff()  # Interactive mode off
+    plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import numpy as np
+import time
+from FeatureExtractor import FE
+from KitNET.KitNET import KitNET
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+
+class Kitsune:
+    def __init__(self, interface, limit, max_autoencoder_size=10, FM_grace_period=None, AD_grace_period=10000, learning_rate=0.1, hidden_ratio=0.75):
+        self.FE = FE(interface, limit)
+        self.AnomDetector = KitNET(self.FE.get_num_features(), max_autoencoder_size, FM_grace_period, AD_grace_period, learning_rate, hidden_ratio)
+
+    def proc_next_packet(self):
+        x = self.FE.get_next_vector()
+        if len(x) == 0:
+            return -1  # Error or no packets left
+        return self.AnomDetector.process(x)  # Train during grace periods, then execute
+
+def update_graph(frame, RMSEs, line):
+    if len(RMSEs) > 0:
+        line.set_data(range(len(RMSEs)), RMSEs)
+        plt.gca().relim()
+        plt.gca().autoscale_view()
+    return line,
+
+if __name__ == "__main__":
+    interface = "Wi-Fi"  # Windows için genellikle "Wi-Fi" veya "Ethernet"
+    packet_limit = np.Inf
+
+    maxAE = 10
+    FMgrace = 5000
+    ADgrace = 50000
+
+    K = Kitsune(interface, packet_limit, maxAE, FMgrace, ADgrace)
+
+    print("Running Kitsune:")
+    RMSEs = []
+    i = 0
+    start_time = time.time()
+    max_duration = 5 * 60  # 5 dakika
+
+    fig, ax = plt.subplots()
+    line, = ax.plot([], [], lw=2)
+    ax.set_ylim(0, 1)
+    ax.set_xlim(0, 100000)
+    ax.set_title("Anomaly Scores from Kitsune's Execution Phase")
+    ax.set_ylabel("RMSE")
+    ax.set_xlabel("Packet")
+
+    ani = animation.FuncAnimation(fig, update_graph, fargs=(RMSEs, line), interval=100)
+
+    plt.ion()  # Interactive mode on
+    plt.show()
+
+    while True:
+        i += 1
+        rmse = K.proc_next_packet()
+        if rmse == -1:
+            break
+        RMSEs.append(rmse)
+
+        # Anlık RMSE değerini yazdırma
+        print(f"Packet {i}: RMSE = {rmse}")
+
+        if i % 1000 == 0:
+            print(f"Processed {i} packets so far.")
+
+        if time.time() - start_time > max_duration:
+            print("Time limit reached. Stopping...")
+            break
+
+        plt.pause(0.01)  # Pause to allow the plot to update
+
+    stop = time.time()
+    print("Complete. Time elapsed: " + str(stop - start))
+
+    plt.ioff()  # Interactive mode off
+    plt.show()
+
+
+
+
+
+
+
+
+
+
+
+import numpy as np
+import time
+import itertools
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from FeatureExtractor import FE
+from KitNET.KitNET import KitNET
+
+class Kitsune:
+    def __init__(self, interface, limit, max_autoencoder_size=10, FM_grace_period=None, AD_grace_period=10000, learning_rate=0.1, hidden_ratio=0.75):
+        self.FE = FE(interface, limit)
+        self.AnomDetector = KitNET(self.FE.get_num_features(), max_autoencoder_size, FM_grace_period, AD_grace_period, learning_rate, hidden_ratio)
+
+    def proc_next_packet(self):
+        x = self.FE.get_next_vector()
+        if len(x) == 0:
+            return -1  # Error or no packets left
+        return self.AnomDetector.process(x)  # Train during grace periods, then execute
+
+def update_graph(num, RMSEs, line, ax):
+    line.set_data(range(len(RMSEs)), RMSEs)
+    ax.relim()
+    ax.autoscale_view()
+    return line,
+
+if __name__ == "__main__":
+    interface = "Wi-Fi"  # Windows için genellikle "Wi-Fi" veya "Ethernet"
+    packet_limit = np.Inf
+
+    maxAE = 10
+    FMgrace = 5000
+    ADgrace = 50000
+
+    K = Kitsune(interface, packet_limit, maxAE, FMgrace, ADgrace)
+
+    print("Running Kitsune:")
+    RMSEs = []
+    i = 0
+    start_time = time.time()
+    max_duration = 5 * 60  # 5 dakika
+
+    plt.ion()  # Interactive mode on
+    fig, ax = plt.subplots()
+    line, = ax.plot([], [], lw=2)
+    ax.set_ylim(0, 1)
+    ax.set_xlim(0, 100000)
+    ax.set_title("Anomaly Scores from Kitsune's Execution Phase")
+    ax.set_ylabel("RMSE")
+    ax.set_xlabel("Packet")
+
+    while True:
+        i += 1
+        rmse = K.proc_next_packet()
+        if rmse == -1:
+            print("No more packets or error in processing.")
+            break
+        RMSEs.append(rmse)
+
+        if i > 54000 and i % 1000 == 0:  # Güncelleme frekansını buradan ayarlayabilirsiniz
+            update_graph(i, RMSEs, line, ax)
+            plt.pause(0.001)  # Grafik penceresini güncelleyip, kullanıcı girdisini dinlemek için kısa bir süre bekler
+
+        if time.time() - start_time > max_duration:
+            print("Time limit reached. Stopping...")
+            break
+
+    plt.ioff()  # Interactive mode off
+    plt.show()
+
+    stop = time.time()
+    print("Complete. Time elapsed: " + str(stop - start))
