@@ -1,5 +1,5 @@
 # Kitsune
-It is a network neural detection system that can detect online network attacks developed by Yisroel Mirsky and his team from Ben-Gurion University. KitNET, the core algorithm of Kitsune; It distinguishes normal and abnormal traffic patterns using an assembly of neural networks called autoencoders. Offering an innovative and effective solution in the field of network security, it can constantly monitor network traffic and detect anomalies providing protection against possible attacks. Thanks to these features, it is a flexible and powerful NIDS solution that can be used in different network environments.
+It is a network detection system that can detect online network attacks developed by Yisroel Mirsky and his team from Ben-Gurion University. KitNET, the core algorithm of Kitsune; It distinguishes normal and abnormal traffic patterns using an assembly of neural networks called autoencoders. Offering an innovative and effective solution in the field of network security, it can constantly monitor network traffic and detect anomalies providing protection against possible attacks. Thanks to these features, it is a flexible and powerful NIDS solution that can be used in different network environments.
 
 
 
